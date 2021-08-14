@@ -38,6 +38,7 @@
 		96FEE2AD26C11862002C5B2F /* AuthorityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE2AC26C11861002C5B2F /* AuthorityRepository.swift */; };
 		96FEE2AF26C50DE0002C5B2F /* ProductRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE2AE26C50DE0002C5B2F /* ProductRepository.swift */; };
 		96FEE2B126C74136002C5B2F /* LedgerBookError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE2B026C74135002C5B2F /* LedgerBookError.swift */; };
+		96FEE2B426C78F81002C5B2F /* AuthorityManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE2B326C78F81002C5B2F /* AuthorityManagerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		96FEE2AC26C11861002C5B2F /* AuthorityRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorityRepository.swift; sourceTree = "<group>"; };
 		96FEE2AE26C50DE0002C5B2F /* ProductRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRepository.swift; sourceTree = "<group>"; };
 		96FEE2B026C74135002C5B2F /* LedgerBookError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LedgerBookError.swift; sourceTree = "<group>"; };
+		96FEE2B326C78F81002C5B2F /* AuthorityManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorityManagerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				96FEE27226BD5AA3002C5B2F /* LedgerBookTests.swift */,
+				96FEE2B226C78F54002C5B2F /* Manager */,
 				96FEE27426BD5AA3002C5B2F /* Info.plist */,
 			);
 			path = LedgerBookTests;
@@ -183,6 +186,14 @@
 				96FEE2A826BFC565002C5B2F /* Cache.swift */,
 			);
 			path = Repository;
+			sourceTree = "<group>";
+		};
+		96FEE2B226C78F54002C5B2F /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				96FEE2B326C78F81002C5B2F /* AuthorityManagerTests.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -365,6 +376,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96FEE27326BD5AA3002C5B2F /* LedgerBookTests.swift in Sources */,
+				96FEE2B426C78F81002C5B2F /* AuthorityManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

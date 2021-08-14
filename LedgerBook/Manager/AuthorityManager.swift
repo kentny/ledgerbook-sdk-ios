@@ -12,7 +12,7 @@ public typealias LedgerBookAuthoritiesCompletion = ([Authority], LedgerBookError
 class AuthorityManager: NSObject {
     private let authorityRepository: AuthorityRepositoryProtocol
     
-    init(authorityRepository: AuthorityRepository) {
+    init(authorityRepository: AuthorityRepositoryProtocol) {
         self.authorityRepository = authorityRepository
     }
     
