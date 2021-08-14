@@ -11,19 +11,19 @@ import StoreKit
 
 public final class LedgerBook: NSObject {
     private static var apiKey: String?
-    private let productIdentifiers: Set<String> = []
-    private var authoritiesCompletion: LedgerBookAuthoritiesCompletion?
-    private var productManager: ProductManager!
+    private let authorityManager: AuthorityManager
     
     class func setup(apiKey: String) {
         Self.apiKey = apiKey
     }
     
     public override init() {
-        self.productManager = ProductManager()
+        let productRepository = ProductRepository()
+        let authorityRepository = AuthorityRepository(productRepository: productRepository)
+        self.authorityManager = AuthorityManager(authorityRepository: authorityRepository)
     }
     
     public func authorities(forceFetch: Bool = false, completion: @escaping LedgerBookAuthoritiesCompletion) {
-        
+        self.authorityManager.authorities(forceFetch: forceFetch, completion: completion)
     }
 }
