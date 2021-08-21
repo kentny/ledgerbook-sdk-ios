@@ -8,6 +8,8 @@
 import Foundation
 import StoreKit
 
+typealias LedgerBookProductsCompletion = ([SKProduct], LedgerBookError?) -> Void
+
 protocol ProductRepositoryProtocol: AnyObject {
     func products(productIdentifiers: [String], completion: @escaping LedgerBookProductsCompletion)
 }

@@ -32,13 +32,14 @@
 		96FEE29526BD5AE4002C5B2F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96FEE29326BD5AE4002C5B2F /* LaunchScreen.storyboard */; };
 		96FEE29F26BD5C72002C5B2F /* Authority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE29E26BD5C71002C5B2F /* Authority.swift */; };
 		96FEE2A126BFB058002C5B2F /* LedgerBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE2A026BFB058002C5B2F /* LedgerBook.swift */; };
-		96FEE2A426BFC3B8002C5B2F /* ProductManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE2A326BFC3B8002C5B2F /* ProductManager.swift */; };
 		96FEE2A926BFC565002C5B2F /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE2A826BFC565002C5B2F /* Cache.swift */; };
 		96FEE2AB26BFD1FA002C5B2F /* AuthorityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE2AA26BFD1FA002C5B2F /* AuthorityManager.swift */; };
 		96FEE2AD26C11862002C5B2F /* AuthorityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE2AC26C11861002C5B2F /* AuthorityRepository.swift */; };
 		96FEE2AF26C50DE0002C5B2F /* ProductRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE2AE26C50DE0002C5B2F /* ProductRepository.swift */; };
-		96FEE2B126C74136002C5B2F /* LedgerBookError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE2B026C74135002C5B2F /* LedgerBookError.swift */; };
+		96FEE2B126C74136002C5B2F /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE2B026C74135002C5B2F /* Error.swift */; };
 		96FEE2B426C78F81002C5B2F /* AuthorityManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE2B326C78F81002C5B2F /* AuthorityManagerTests.swift */; };
+		96FEE2B626C8B440002C5B2F /* PurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE2B526C8B440002C5B2F /* PurchaseManager.swift */; };
+		96FEE2B926C8B577002C5B2F /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE2B826C8B577002C5B2F /* Result.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,13 +69,14 @@
 		96FEE29626BD5AE4002C5B2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96FEE29E26BD5C71002C5B2F /* Authority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authority.swift; sourceTree = "<group>"; };
 		96FEE2A026BFB058002C5B2F /* LedgerBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LedgerBook.swift; sourceTree = "<group>"; };
-		96FEE2A326BFC3B8002C5B2F /* ProductManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductManager.swift; sourceTree = "<group>"; };
 		96FEE2A826BFC565002C5B2F /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		96FEE2AA26BFD1FA002C5B2F /* AuthorityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorityManager.swift; sourceTree = "<group>"; };
 		96FEE2AC26C11861002C5B2F /* AuthorityRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorityRepository.swift; sourceTree = "<group>"; };
 		96FEE2AE26C50DE0002C5B2F /* ProductRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRepository.swift; sourceTree = "<group>"; };
-		96FEE2B026C74135002C5B2F /* LedgerBookError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LedgerBookError.swift; sourceTree = "<group>"; };
+		96FEE2B026C74135002C5B2F /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		96FEE2B326C78F81002C5B2F /* AuthorityManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorityManagerTests.swift; sourceTree = "<group>"; };
+		96FEE2B526C8B440002C5B2F /* PurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseManager.swift; sourceTree = "<group>"; };
+		96FEE2B826C8B577002C5B2F /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,8 +131,7 @@
 				96FEE26826BD5AA2002C5B2F /* Info.plist */,
 				96FEE26726BD5AA2002C5B2F /* LedgerBook.h */,
 				96FEE2A026BFB058002C5B2F /* LedgerBook.swift */,
-				96FEE2B026C74135002C5B2F /* LedgerBookError.swift */,
-				96FEE29B26BD5B0B002C5B2F /* Entity */,
+				96FEE2B726C8B552002C5B2F /* Data */,
 				96FEE2A226BFC3A7002C5B2F /* Manager */,
 				96FEE2A526BFC532002C5B2F /* Repository */,
 			);
@@ -173,7 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				96FEE2AA26BFD1FA002C5B2F /* AuthorityManager.swift */,
-				96FEE2A326BFC3B8002C5B2F /* ProductManager.swift */,
+				96FEE2B526C8B440002C5B2F /* PurchaseManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -194,6 +195,16 @@
 				96FEE2B326C78F81002C5B2F /* AuthorityManagerTests.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		96FEE2B726C8B552002C5B2F /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				96FEE2B026C74135002C5B2F /* Error.swift */,
+				96FEE2B826C8B577002C5B2F /* Result.swift */,
+				96FEE29B26BD5B0B002C5B2F /* Entity */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -360,13 +371,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96FEE2B126C74136002C5B2F /* LedgerBookError.swift in Sources */,
+				96FEE2B926C8B577002C5B2F /* Result.swift in Sources */,
+				96FEE2B126C74136002C5B2F /* Error.swift in Sources */,
 				96FEE29F26BD5C72002C5B2F /* Authority.swift in Sources */,
 				96FEE2AD26C11862002C5B2F /* AuthorityRepository.swift in Sources */,
-				96FEE2A426BFC3B8002C5B2F /* ProductManager.swift in Sources */,
 				96FEE2A926BFC565002C5B2F /* Cache.swift in Sources */,
 				96FEE2AF26C50DE0002C5B2F /* ProductRepository.swift in Sources */,
 				96FEE2A126BFB058002C5B2F /* LedgerBook.swift in Sources */,
+				96FEE2B626C8B440002C5B2F /* PurchaseManager.swift in Sources */,
 				96FEE2AB26BFD1FA002C5B2F /* AuthorityManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
