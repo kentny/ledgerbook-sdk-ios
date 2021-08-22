@@ -53,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		96C71C6726D1C2C9002B053F /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		96FEE26426BD5AA2002C5B2F /* LedgerBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LedgerBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96FEE26726BD5AA2002C5B2F /* LedgerBook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LedgerBook.h; sourceTree = "<group>"; };
 		96FEE26826BD5AA2002C5B2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -154,6 +155,7 @@
 				96FEE28826BD5AE2002C5B2F /* AppDelegate.swift */,
 				96FEE28A26BD5AE2002C5B2F /* SceneDelegate.swift */,
 				96FEE28C26BD5AE2002C5B2F /* ViewController.swift */,
+				96C71C6726D1C2C9002B053F /* Configuration.storekit */,
 				96FEE28E26BD5AE2002C5B2F /* Main.storyboard */,
 				96FEE29126BD5AE4002C5B2F /* Assets.xcassets */,
 				96FEE29326BD5AE4002C5B2F /* LaunchScreen.storyboard */,

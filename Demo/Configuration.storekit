@@ -1,0 +1,108 @@
+{
+  "identifier" : "FDD24888",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "87E24E62",
+      "localizations" : [
+
+      ],
+      "name" : "My Auto-Renewable Subscription Group",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "displayPrice" : "8.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "5B31A7BC",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Join the DIAMOND Plan",
+              "displayName" : "DIAMOND Plan",
+              "locale" : "en_US"
+            },
+            {
+              "description" : "ダイアモンド会員になります",
+              "displayName" : "ダイアモンド会員",
+              "locale" : "ja"
+            }
+          ],
+          "productID" : "com.myapp.diamond",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "DIAMOND Plan",
+          "subscriptionGroupID" : "87E24E62",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "displayPrice" : "5.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "86706930",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Join the GOLD Plan",
+              "displayName" : "GOLD Plan",
+              "locale" : "en_US"
+            },
+            {
+              "description" : "ゴールド会員になります",
+              "displayName" : "ゴールド会員",
+              "locale" : "ja"
+            }
+          ],
+          "productID" : "com.myapp.gold",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "GOLD Plan",
+          "subscriptionGroupID" : "87E24E62",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "displayPrice" : "2.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "84143E09",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Join the SILVER Plan",
+              "displayName" : "SILVER Plan",
+              "locale" : "en_US"
+            },
+            {
+              "description" : "シルバー会員になります",
+              "displayName" : "シルバー会員",
+              "locale" : "ja"
+            }
+          ],
+          "productID" : "com.myapp.silver",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "SILVER Plan",
+          "subscriptionGroupID" : "87E24E62",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 1,
+    "minor" : 1
+  }
+}

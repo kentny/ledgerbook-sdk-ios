@@ -8,29 +8,20 @@
 import UIKit
 import StoreKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SKProductsRequestDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     private let tableView = UITableView()
     private var products = [SKProduct]()
     private enum Product: String, CaseIterable {
         case diamond = "com.myapp.diamond"
         case gold = "com.myapp.gold"
         case silver = "com.myapp.silver"
-        
-        func title() -> String {
-            switch self {
-            case .diamond:
-                return "Join DIAMOND Plan"
-            case .gold:
-                return "Join GOLD Plan"
-            case .silver:
-                return "Join SILVER Paln"
-            }
-        }
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        SKPaymentQueue.default().add(self)
         
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.tableView.delegate = self
@@ -45,18 +36,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Product.allCases.count
+        return self.products.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let product = self.products[indexPath.row]
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = product.priceLocale
+        let price = formatter.string(from: product.price)!
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = Product.allCases[indexPath.row].title()
+        cell.textLabel?.numberOfLines = 0
+        cell.textLabel?.text = "\(product.localizedTitle)\n\(product.localizedDescription)\n\(String(describing: price))"
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let product = Product.allCases[indexPath.row]
-        
+        let product = self.products[indexPath.row]
+        let payment = SKPayment(product: product)
+        SKPaymentQueue.default().add(payment)
     }
     
     
@@ -67,5 +65,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        for transaction in transactions {
+            print("transaction.transactionIdentifier: \(transaction.transactionIdentifier ?? "nil")")
+            switch transaction.transactionState {
+            case .purchasing:
+                print("transactionState: purchasing")
+            case .purchased:
+                print("transactionState: purchased")
+                SKPaymentQueue.default().finishTransaction(transaction)
+            case .deferred:
+                print("transactionState: deferred")
+            case .restored:
+                print("transactionState: restored")
+            case .failed:
+                print("transactionState: failed")
+                SKPaymentQueue.default().finishTransaction(transaction)
+            @unknown default:
+                fatalError()
+            }
+        }
+    }
+    
+
 }
 
