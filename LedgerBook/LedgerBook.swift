@@ -13,7 +13,9 @@ public final class LedgerBook: NSObject {
     private static var apiKey: String?
     private let authorityManager: AuthorityManager
     
-    class func setup(apiKey: String) {
+    public class func setup(apiKey: String, debug: Bool = false) {
+        lbDebug = debug
+        LBDebugPrint("setup, apikey: \(apiKey)")
         Self.apiKey = apiKey
     }
     

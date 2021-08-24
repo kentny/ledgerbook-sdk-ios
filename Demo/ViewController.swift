@@ -79,6 +79,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             case .restored:
                 print("transactionState: restored")
             case .failed:
+                // Typically, canceled.
                 print("transactionState: failed")
                 SKPaymentQueue.default().finishTransaction(transaction)
             @unknown default:
