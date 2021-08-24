@@ -9,8 +9,8 @@ import Foundation
 import StoreKit
 
 public class Authority {
-    let identifier: String
-    let products: [SKProduct]
+    public let identifier: String
+    public let products: [SKProduct]
 
     public init(identifier: String, products: [SKProduct]) {
         self.identifier = identifier

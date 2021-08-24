@@ -81,7 +81,7 @@ class PurchaseManager : NSObject,SKPaymentTransactionObserver {
 
     /// リストア開始
     func startRestore(){
-        print("リストア開始")
+        LBDebugPrint("リストア開始")
         if !self.isRestore {
             self.isRestore = true
             SKPaymentQueue.default().restoreCompletedTransactions()
@@ -93,17 +93,17 @@ class PurchaseManager : NSObject,SKPaymentTransactionObserver {
     // MARK: - SKPaymentTransactionObserver
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         //課金状態が更新されるたびに呼ばれる
-        print("paymentQueue, transaction number: \(transactions.count)")
+        LBDebugPrint("paymentQueue, transaction number: \(transactions.count)")
         for transaction in transactions {
-            print("transactionIdentifier: \(transaction.transactionIdentifier ?? "nil")")
+            LBDebugPrint("transactionIdentifier: \(transaction.transactionIdentifier ?? "nil")")
             switch transaction.transactionState {
             case .purchasing :
                 //課金中
-                print("paymentQueue: purchasing")
+                LBDebugPrint("paymentQueue: purchasing")
                 break
             case .purchased :
                 //課金完了
-                print("paymentQueue: purchased")
+                LBDebugPrint("paymentQueue: purchased")
                 self.verifyReceipt(completion: { [weak self] result in
                     switch result {
                     case .success(let isSuccess):
@@ -118,29 +118,29 @@ class PurchaseManager : NSObject,SKPaymentTransactionObserver {
                 })
             case .failed :
                 //課金失敗
-                print("paymentQueue: failed")
+                LBDebugPrint("paymentQueue: failed")
                 self.failedTransaction(transaction)
             case .restored :
                 //リストア
-                print("paymentQueue: restored")
+                LBDebugPrint("paymentQueue: restored")
                 self.verifyReceipt(completion: { [weak self] result in
                     switch result {
                     case .success(let isSuccess):
                         if isSuccess {
-                            print("restored - verifyReceipt - success")
+                            LBDebugPrint("restored - verifyReceipt - success")
                             self?.restoreTransaction(transaction)
                         } else {
-                            print("restored - verifyReceipt - not success")
+                            LBDebugPrint("restored - verifyReceipt - not success")
                             self?.failedTransaction(transaction)
                         }
                     case .failure(_):
-                        print("restored - verifyReceipt - failed")
+                        LBDebugPrint("restored - verifyReceipt - failed")
                         self?.failedTransaction(transaction)
                     }
                 })
             case .deferred :
                 //承認待ち
-                print("paymentQueue: deferred")
+                LBDebugPrint("paymentQueue: deferred")
                 self.deferredTransaction(transaction)
             @unknown default:
                 fatalError()
@@ -150,16 +150,16 @@ class PurchaseManager : NSObject,SKPaymentTransactionObserver {
 
     func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
         //リストア失敗時に呼ばれる
-        print(#function)
-        print("Error: \(error)")
+        LBDebugPrint(#function)
+        LBDebugPrint("Error: \(error)")
         self.delegate?.purchaseManager(self, didFailWithErrors: [error])
         self.isRestore = false
     }
 
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
         //リストア完了時に呼ばれる
-        print(#function)
-        print("Restore completed.")
+        LBDebugPrint(#function)
+        LBDebugPrint("Restore completed.")
         self.delegate?.purchaseManagerDidFinishRestore(self)
         self.isRestore = false
     }

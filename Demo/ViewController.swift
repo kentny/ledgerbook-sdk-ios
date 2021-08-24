@@ -7,21 +7,20 @@
 
 import UIKit
 import StoreKit
+import LedgerBook
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SKProductsRequestDelegate, SKPaymentTransactionObserver {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     private let tableView = UITableView()
-    private var products = [SKProduct]()
-    private enum Product: String, CaseIterable {
-        case diamond = "com.myapp.diamond"
-        case gold = "com.myapp.gold"
-        case silver = "com.myapp.silver"
+    private var authorities = [Authority]()
+    private let ledgerBook = LedgerBook()
+    private var products: [SKProduct] {
+        return self.authorities.reduce([SKProduct]()) { result, authority in
+            result + authority.products
+        }
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        SKPaymentQueue.default().add(self)
         
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.tableView.delegate = self
@@ -29,10 +28,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.view.addSubview(self.tableView)
         self.tableView.frame = self.view.bounds
         
-        let productRequest = SKProductsRequest(productIdentifiers: Set(Product.allCases.map{ $0.rawValue }))
-        productRequest.delegate = self
-        productRequest.cancel()
-        productRequest.start()
+        self.ledgerBook.delegate = self
+        self.ledgerBook.authorities()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -56,38 +53,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let payment = SKPayment(product: product)
         SKPaymentQueue.default().add(payment)
     }
-    
-    
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+}
+
+extension ViewController: LedgerBookDelegate {
+    func ledgerBook(_ authorities: [Authority], error: LedgerBookError?) {
         DispatchQueue.main.async {
-            self.products = response.products
+            self.authorities = authorities
             self.tableView.reloadData()
         }
     }
-    
-    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        for transaction in transactions {
-            print("transaction.transactionIdentifier: \(transaction.transactionIdentifier ?? "nil")")
-            switch transaction.transactionState {
-            case .purchasing:
-                print("transactionState: purchasing")
-            case .purchased:
-                print("transactionState: purchased")
-                SKPaymentQueue.default().finishTransaction(transaction)
-            case .deferred:
-                print("transactionState: deferred")
-            case .restored:
-                print("transactionState: restored")
-            case .failed:
-                // Typically, canceled.
-                print("transactionState: failed")
-                SKPaymentQueue.default().finishTransaction(transaction)
-            @unknown default:
-                fatalError()
-            }
-        }
-    }
-    
-
 }
-

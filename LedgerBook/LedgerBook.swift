@@ -8,10 +8,15 @@
 import Foundation
 import StoreKit
 
+public protocol LedgerBookDelegate: AnyObject {
+    func ledgerBook(_ authorities: [Authority], error: LedgerBookError?)
+}
 
 public final class LedgerBook: NSObject {
     private static var apiKey: String?
     private let authorityManager: AuthorityManager
+    
+    public var delegate: LedgerBookDelegate?
     
     public class func setup(apiKey: String, debug: Bool = false) {
         lbDebug = debug
@@ -25,7 +30,9 @@ public final class LedgerBook: NSObject {
         self.authorityManager = AuthorityManager(authorityRepository: authorityRepository)
     }
     
-    public func authorities(forceFetch: Bool = false, completion: @escaping LedgerBookAuthoritiesCompletion) {
-        self.authorityManager.authorities(forceFetch: forceFetch, completion: completion)
+    public func authorities(forceFetch: Bool = false) {
+        self.authorityManager.authorities(forceFetch: forceFetch) { [weak self] authorities, error in
+            self?.delegate?.ledgerBook(authorities, error: error)
+        }
     }
 }
