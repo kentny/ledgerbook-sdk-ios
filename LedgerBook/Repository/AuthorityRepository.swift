@@ -20,8 +20,10 @@ class AuthorityRepository: AuthorityRepositoryProtocol {
     
     func authorities(forceFetch: Bool = false, completion: @escaping LedgerBookAuthoritiesCompletion) {
         if !forceFetch, let tempAuthorities = Cache.loadTempAuthorities() {
+            // Use cache values when not force fetch and cache is available.
             self.authoritiesFromTemporaryAuthorities(tempAuthorities: tempAuthorities, completion: completion)
         } else {
+            // Fetch values from server.
             self.fetchFromLBServer { [weak self] tempAuthorities, error in
                 self?.authoritiesFromTemporaryAuthorities(tempAuthorities: tempAuthorities, completion: completion)
             }
@@ -33,8 +35,9 @@ class AuthorityRepository: AuthorityRepositoryProtocol {
     private func fetchFromLBServer(completion: @escaping ([TemporaryAuthority], LedgerBookError?) -> Void) {
         // Fetch authorities from the Ledger Book server.
         let dummyTempAuthorities = [
-            TemporaryAuthority(identifier: "auth1", productIds: ["productA", "productB"]),
-            TemporaryAuthority(identifier: "auth2", productIds: ["productC", "productD"]),
+            TemporaryAuthority(identifier: "diamond", productIds: ["com.myapp.diamond"]),
+            TemporaryAuthority(identifier: "gold", productIds: ["com.myapp.gold"]),
+            TemporaryAuthority(identifier: "silver", productIds: ["com.myapp.silver"]),
         ]
         completion(dummyTempAuthorities, nil)
     }
@@ -46,7 +49,7 @@ class AuthorityRepository: AuthorityRepositoryProtocol {
             return result + tempAuthority.productIds
         }
         self.productRepository.products(productIdentifiers: productIds) { products, error in
-            if error == nil {
+            if error != nil {
                 completion([], error)
                 return
             }
