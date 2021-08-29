@@ -19,15 +19,15 @@ class AuthorityRepository: AuthorityRepositoryProtocol {
     }
     
     func authorities(forceFetch: Bool = false, completion: @escaping LedgerBookAuthoritiesCompletion) {
-        if !forceFetch, let tempAuthorities = Cache.loadTempAuthorities() {
-            // Use cache values when not force fetch and cache is available.
-            self.authoritiesFromTemporaryAuthorities(tempAuthorities: tempAuthorities, completion: completion)
-        } else {
-            // Fetch values from server.
-            self.fetchFromLBServer { [weak self] tempAuthorities, error in
-                self?.authoritiesFromTemporaryAuthorities(tempAuthorities: tempAuthorities, completion: completion)
-            }
-        }
+//        if !forceFetch, let tempAuthorities = Cache.loadTempAuthorities() {
+//            // Use cache values when not force fetch and cache is available.
+//            self.authoritiesFromTemporaryAuthorities(tempAuthorities: tempAuthorities, completion: completion)
+//        } else {
+//            // Fetch values from server.
+//            self.fetchFromLBServer { [weak self] tempAuthorities, error in
+//                self?.authoritiesFromTemporaryAuthorities(tempAuthorities: tempAuthorities, completion: completion)
+//            }
+//        }
     }
 
     
@@ -43,24 +43,24 @@ class AuthorityRepository: AuthorityRepositoryProtocol {
     }
     
 
-    private func authoritiesFromTemporaryAuthorities(tempAuthorities: [TemporaryAuthority], completion: @escaping LedgerBookAuthoritiesCompletion) {
-        // Extract product ids from temporary authorities.
-        let productIds = tempAuthorities.reduce([String]()) { result, tempAuthority in
-            return result + tempAuthority.productIds
-        }
-        self.productRepository.products(productIdentifiers: productIds) { products, error in
-            if error != nil {
-                completion([], error)
-                return
-            }
-            
-            var authorities: [Authority] = []
-            for tempAuthority in tempAuthorities {
-                let _products = products.filter({ tempAuthority.productIds.firstIndex(of: $0.productIdentifier) != nil })
-                let authority = Authority(identifier: tempAuthority.identifier, products: _products)
-                authorities.append(authority)
-            }
-            completion(authorities, nil)
-        }
-    }
+//    private func authoritiesFromTemporaryAuthorities(tempAuthorities: [TemporaryAuthority], completion: @escaping LedgerBookAuthoritiesCompletion) {
+//        // Extract product ids from temporary authorities.
+//        let productIds = tempAuthorities.reduce([String]()) { result, tempAuthority in
+//            return result + tempAuthority.productIds
+//        }
+//        self.productRepository.products(productIdentifiers: productIds) { products, error in
+//            if error != nil {
+//                completion([], error)
+//                return
+//            }
+//            
+//            var authorities: [Authority] = []
+//            for tempAuthority in tempAuthorities {
+//                let _products = products.filter({ tempAuthority.productIds.firstIndex(of: $0.productIdentifier) != nil })
+//                let authority = Authority(identifier: tempAuthority.identifier, products: _products)
+//                authorities.append(authority)
+//            }
+//            completion(authorities, nil)
+//        }
+//    }
 }

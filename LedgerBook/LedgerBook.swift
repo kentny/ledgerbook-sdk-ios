@@ -13,15 +13,15 @@ public protocol LedgerBookDelegate: AnyObject {
 }
 
 public final class LedgerBook: NSObject {
-    private static var apiKey: String?
+    static var appId: String?
     private let authorityManager: AuthorityManager
     
     public var delegate: LedgerBookDelegate?
     
-    public class func setup(apiKey: String, debug: Bool = false) {
+    public class func setup(appId: String, debug: Bool = false) {
         lbDebug = debug
-        LBDebugPrint("setup, apikey: \(apiKey)")
-        Self.apiKey = apiKey
+        LBDebugPrint("setup, appId: \(appId)")
+        Self.appId = appId
     }
     
     public override init() {

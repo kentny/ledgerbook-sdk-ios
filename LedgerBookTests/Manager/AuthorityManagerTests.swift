@@ -19,37 +19,37 @@ class AuthorityManagerTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testAuthorities() throws {
-        let dummyAuthorities1 = [
-            Authority(identifier: "auth1", products: [SKProduct(), SKProduct()]),
-            Authority(identifier: "auth2", products: [SKProduct(), SKProduct(), SKProduct()]),
-        ]
-        let dummyAuthorities2 = [
-            Authority(identifier: "auth3", products: [SKProduct(), SKProduct()]),
-            Authority(identifier: "auth4", products: [SKProduct()]),
-            Authority(identifier: "auth5", products: [SKProduct(), SKProduct(), SKProduct()]),
-        ]
-        
-        let mock = MockAuthorityRepository(authorities1: dummyAuthorities1, authorities2: dummyAuthorities2)
-        let authorityManager = AuthorityManager(authorityRepository: mock)
-        let expectation1 = self.expectation(description: "Get authorities with forced fetch.")
-        authorityManager.authorities(forceFetch: true) { authorities, error in
-            XCTAssertNil(error)
-            XCTAssertTrue(authorities.count == dummyAuthorities1.count)
-            XCTAssertTrue(authorities[0].identifier == dummyAuthorities1[0].identifier)
-            expectation1.fulfill()
-        }
-        
-        let expectation2 = self.expectation(description: "Get authorities without forced fetch.")
-        authorityManager.authorities(forceFetch: false) { authorities, error in
-            XCTAssertNil(error)
-            XCTAssertTrue(authorities.count == dummyAuthorities2.count)
-            XCTAssertTrue(authorities[0].identifier == dummyAuthorities2[0].identifier)
-            expectation2.fulfill()
-        }
-        
-        self.waitForExpectations(timeout: 0.5, handler: nil)
-    }
+//    func testAuthorities() throws {
+//        let dummyAuthorities1 = [
+//            Authority(identifier: "auth1", products: [SKProduct(), SKProduct()]),
+//            Authority(identifier: "auth2", products: [SKProduct(), SKProduct(), SKProduct()]),
+//        ]
+//        let dummyAuthorities2 = [
+//            Authority(identifier: "auth3", products: [SKProduct(), SKProduct()]),
+//            Authority(identifier: "auth4", products: [SKProduct()]),
+//            Authority(identifier: "auth5", products: [SKProduct(), SKProduct(), SKProduct()]),
+//        ]
+//        
+//        let mock = MockAuthorityRepository(authorities1: dummyAuthorities1, authorities2: dummyAuthorities2)
+//        let authorityManager = AuthorityManager(authorityRepository: mock)
+//        let expectation1 = self.expectation(description: "Get authorities with forced fetch.")
+//        authorityManager.authorities(forceFetch: true) { authorities, error in
+//            XCTAssertNil(error)
+//            XCTAssertTrue(authorities.count == dummyAuthorities1.count)
+//            XCTAssertTrue(authorities[0].identifier == dummyAuthorities1[0].identifier)
+//            expectation1.fulfill()
+//        }
+//        
+//        let expectation2 = self.expectation(description: "Get authorities without forced fetch.")
+//        authorityManager.authorities(forceFetch: false) { authorities, error in
+//            XCTAssertNil(error)
+//            XCTAssertTrue(authorities.count == dummyAuthorities2.count)
+//            XCTAssertTrue(authorities[0].identifier == dummyAuthorities2[0].identifier)
+//            expectation2.fulfill()
+//        }
+//        
+//        self.waitForExpectations(timeout: 0.5, handler: nil)
+//    }
 }
 
 class MockAuthorityRepository: AuthorityRepositoryProtocol {

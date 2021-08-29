@@ -8,16 +8,24 @@
 import Foundation
 import StoreKit
 
-public class Authority {
-    public let identifier: String
-    public let products: [SKProduct]
+//public class Authority {
+//    public let identifier: String
+//    public let products: [SKProduct]
+//
+//    public init(identifier: String, products: [SKProduct]) {
+//        self.identifier = identifier
+//        self.products = products
+//    }
+//}
 
-    public init(identifier: String, products: [SKProduct]) {
-        self.identifier = identifier
-        self.products = products
+public class Authority: Codable {
+    let name, id: String
+
+    init(name: String, id: String) {
+        self.name = name
+        self.id = id
     }
 }
-
 
 class TemporaryAuthority: NSObject, NSCoding {
     let identifier: String
