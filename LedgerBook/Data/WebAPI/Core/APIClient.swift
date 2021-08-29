@@ -46,11 +46,13 @@ class APIClient: NSObject {
         var urlRequest = URLRequest(url: urlComponents.url!)
         urlRequest.httpMethod = requestMethod.rawValue
 
-        do {
-            let requestBody = try JSONSerialization.data(withJSONObject: request.parameters, options: [])
-            urlRequest.httpBody = requestBody
-        } catch let error {
-            LBDebugPrint(error.localizedDescription)
+        if requestMethod != .get {
+            do {
+                let requestBody = try JSONSerialization.data(withJSONObject: request.parameters, options: [])
+                urlRequest.httpBody = requestBody
+            } catch let error {
+                LBDebugPrint(error.localizedDescription)
+            }
         }
 
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in

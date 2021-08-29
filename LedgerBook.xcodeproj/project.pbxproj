@@ -27,6 +27,12 @@
 		9673E1DB26D6793800F3D919 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673E1DA26D6793800F3D919 /* Request.swift */; };
 		9673E1DE26DB032B00F3D919 /* GetAuthorities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673E1DD26DB032B00F3D919 /* GetAuthorities.swift */; };
 		9673E1E126DB725100F3D919 /* GetProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673E1E026DB725100F3D919 /* GetProducts.swift */; };
+		9673E1E726DB79DA00F3D919 /* GetProductsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673E1E626DB79DA00F3D919 /* GetProductsTests.swift */; };
+		9673E1E926DB7D0F00F3D919 /* LedgerBook.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9673E1E826DB7D0F00F3D919 /* LedgerBook.plist */; };
+		9673E1ED26DBA9B800F3D919 /* LedgerBook.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9673E1E826DB7D0F00F3D919 /* LedgerBook.plist */; };
+		9673E1EF26DBAA0200F3D919 /* hoge.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9673E1EE26DBAA0200F3D919 /* hoge.txt */; };
+		9673E1F026DBAA0200F3D919 /* hoge.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9673E1EE26DBAA0200F3D919 /* hoge.txt */; };
+		9673E1F126DBAA4300F3D919 /* hoge.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9673E1EE26DBAA0200F3D919 /* hoge.txt */; };
 		96C71C6C26D23F57002B053F /* Debugger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C71C6B26D23F57002B053F /* Debugger.swift */; };
 		96FEE26E26BD5AA3002C5B2F /* LedgerBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96FEE26426BD5AA2002C5B2F /* LedgerBook.framework */; };
 		96FEE27326BD5AA3002C5B2F /* LedgerBookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE27226BD5AA3002C5B2F /* LedgerBookTests.swift */; };
@@ -85,6 +91,9 @@
 		9673E1DA26D6793800F3D919 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		9673E1DD26DB032B00F3D919 /* GetAuthorities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAuthorities.swift; sourceTree = "<group>"; };
 		9673E1E026DB725100F3D919 /* GetProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProducts.swift; sourceTree = "<group>"; };
+		9673E1E626DB79DA00F3D919 /* GetProductsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProductsTests.swift; sourceTree = "<group>"; };
+		9673E1E826DB7D0F00F3D919 /* LedgerBook.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = LedgerBook.plist; sourceTree = "<group>"; };
+		9673E1EE26DBAA0200F3D919 /* hoge.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hoge.txt; sourceTree = "<group>"; };
 		96C71C6726D1C2C9002B053F /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		96C71C6B26D23F57002B053F /* Debugger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debugger.swift; sourceTree = "<group>"; };
 		96FEE26426BD5AA2002C5B2F /* LedgerBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LedgerBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -150,20 +159,36 @@
 		9673E1D726D675B800F3D919 /* WebAPI */ = {
 			isa = PBXGroup;
 			children = (
-				9673E1D826D675C700F3D919 /* APIClient.swift */,
-				9673E1DA26D6793800F3D919 /* Request.swift */,
-				9673E1DF26DB034700F3D919 /* Authority */,
+				9673E1E526DB799800F3D919 /* Core */,
+				9673E1DD26DB032B00F3D919 /* GetAuthorities.swift */,
+				9673E1E026DB725100F3D919 /* GetProducts.swift */,
 			);
 			path = WebAPI;
 			sourceTree = "<group>";
 		};
-		9673E1DF26DB034700F3D919 /* Authority */ = {
+		9673E1E226DB797400F3D919 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				9673E1DD26DB032B00F3D919 /* GetAuthorities.swift */,
-				9673E1E026DB725100F3D919 /* GetProducts.swift */,
+				9673E1E326DB797B00F3D919 /* WebAPI */,
 			);
-			path = Authority;
+			path = Data;
+			sourceTree = "<group>";
+		};
+		9673E1E326DB797B00F3D919 /* WebAPI */ = {
+			isa = PBXGroup;
+			children = (
+				9673E1E626DB79DA00F3D919 /* GetProductsTests.swift */,
+			);
+			path = WebAPI;
+			sourceTree = "<group>";
+		};
+		9673E1E526DB799800F3D919 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				9673E1D826D675C700F3D919 /* APIClient.swift */,
+				9673E1DA26D6793800F3D919 /* Request.swift */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 		96C71C6826D23EE5002B053F /* Common */ = {
@@ -201,6 +226,8 @@
 				96FEE26826BD5AA2002C5B2F /* Info.plist */,
 				96FEE26726BD5AA2002C5B2F /* LedgerBook.h */,
 				96FEE2A026BFB058002C5B2F /* LedgerBook.swift */,
+				9673E1EE26DBAA0200F3D919 /* hoge.txt */,
+				9673E1E826DB7D0F00F3D919 /* LedgerBook.plist */,
 				96C71C6826D23EE5002B053F /* Common */,
 				96FEE2B726C8B552002C5B2F /* Data */,
 				96FEE2A226BFC3A7002C5B2F /* Manager */,
@@ -215,6 +242,7 @@
 				96FEE27226BD5AA3002C5B2F /* LedgerBookTests.swift */,
 				96FEE2B226C78F54002C5B2F /* Manager */,
 				96FEE27426BD5AA3002C5B2F /* Info.plist */,
+				9673E1E226DB797400F3D919 /* Data */,
 			);
 			path = LedgerBookTests;
 			sourceTree = "<group>";
@@ -399,6 +427,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9673E1EF26DBAA0200F3D919 /* hoge.txt in Resources */,
+				9673E1E926DB7D0F00F3D919 /* LedgerBook.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,6 +436,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9673E1F026DBAA0200F3D919 /* hoge.txt in Resources */,
+				9673E1ED26DBA9B800F3D919 /* LedgerBook.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +446,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96FEE29526BD5AE4002C5B2F /* LaunchScreen.storyboard in Resources */,
+				9673E1F126DBAA4300F3D919 /* hoge.txt in Resources */,
 				96FEE29226BD5AE4002C5B2F /* Assets.xcassets in Resources */,
 				96FEE29026BD5AE2002C5B2F /* Main.storyboard in Resources */,
 			);
@@ -469,6 +502,7 @@
 			files = (
 				96FEE27326BD5AA3002C5B2F /* LedgerBookTests.swift in Sources */,
 				96FEE2B426C78F81002C5B2F /* AuthorityManagerTests.swift in Sources */,
+				9673E1E726DB79DA00F3D919 /* GetProductsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

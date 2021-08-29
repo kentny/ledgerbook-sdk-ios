@@ -14,9 +14,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var authorities = [Authority]()
     private let ledgerBook = LedgerBook()
     private var products: [SKProduct] {
-        return self.authorities.reduce([SKProduct]()) { result, authority in
-            result + authority.products
-        }
+        return []
+//        return self.authorities.reduce([SKProduct]()) { result, authority in
+//            result + authority.products
+//        }
     }
     
     override func viewDidLoad() {

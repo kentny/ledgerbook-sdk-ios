@@ -7,7 +7,7 @@
 
 import Foundation
 
-class GetProducts: Request {
+class GetProductsRequest: Request {
     typealias Response = GetProductsResponse
     
     var httpMethod: HttpMethod {
@@ -15,14 +15,15 @@ class GetProducts: Request {
     }
     
     var url: URL {
-        let baseURLString = Bundle.main.infoDictionary!["WebAPIBaseURL"] as! String
-        let baseURL = URL(string: baseURLString)!
+        let baseURL = self.endpontURL
         let requestURL = baseURL.appendingPathComponent("/dev/v1/product/list")
         return requestURL
     }
     
     var headers: [String : String] {
-        let headers: [String: String] = [:]
+        let headers = [
+            "Content-Type": "application/json"
+        ]
         return headers
     }
     
@@ -41,8 +42,9 @@ class GetProducts: Request {
     }
 }
 
+typealias GetProductsResponse = [GetProductsResponseElement]
 
-class GetProductsResponse: Codable {
+class GetProductsResponseElement: Codable {
     let id: String
     let appId: String
     let name: String

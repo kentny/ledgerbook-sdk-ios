@@ -21,6 +21,13 @@ protocol Request {
 }
 
 extension Request {
+    var endpontURL: URL {
+        // This plist file is only for LedgerBook service developers and not published in GtiHub.
+        let path = Bundle(identifier: "com.kentaro.LedgerBook")!.path(forResource: "LedgerBook", ofType: "plist")
+        let configurations = NSDictionary(contentsOfFile: path!)!
+        let urlString = configurations["WebAPIEndpoint"] as! String
+        return URL(string: urlString)!
+    }
     
     var headers: [String : String] {
         return [:]

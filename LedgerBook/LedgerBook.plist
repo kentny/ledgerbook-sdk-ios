@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>WebAPIEndpoint</key>
+	<string>https://1tgb9mvyme.execute-api.ap-northeast-1.amazonaws.com</string>
+	<key>AppId</key>
+	<string>633d784e-11a0-4f39-9cd6-0091a0af2cd4</string>
+</dict>
+</plist>
