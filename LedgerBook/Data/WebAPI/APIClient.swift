@@ -38,10 +38,12 @@ struct APIError {
 
 class APIClient: NSObject {
     static func sendRequest<T : Request>(request: T, success: @escaping (_ json: T.Response?) -> Void, failure: @escaping (_ error: APIClientError?) -> Void) {
-        let requestURL = request.baseURL.appendingPathComponent(request.path)
         let requestMethod = request.httpMethod
-
-        var urlRequest = URLRequest(url: requestURL)
+        var urlComponents = URLComponents(url: request.url, resolvingAgainstBaseURL: true)!
+        urlComponents.queryItems = request.queryParameters
+        urlComponents.percentEncodedQuery = urlComponents.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
+        
+        var urlRequest = URLRequest(url: urlComponents.url!)
         urlRequest.httpMethod = requestMethod.rawValue
 
         do {

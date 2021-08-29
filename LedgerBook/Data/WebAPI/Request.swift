@@ -12,10 +12,10 @@ protocol Request {
     associatedtype Response
     
     var httpMethod: HttpMethod { get }
-    var baseURL: URL { get }
-    var path: String { get }
+    var url: URL { get }
     var headers: [String : String] { get }
     var parameters: [String : Any] { get }
+    var queryParameters: [URLQueryItem] { get }
     
     func responseFromJsonObject(_ jsonObject: [String : Any]) -> Response?
 }
@@ -34,7 +34,7 @@ extension Request {
 extension Request where Response: Codable {
     
     func responseFromJsonObject(_ jsonObject: [String : Any]) -> Response? {
-        // TODO
+        // TODO: Decode data into JSON by codable.
         return nil
 //        guard let model = Mapper<Response>().map(JSON: jsonObject) else {
 //            return nil
