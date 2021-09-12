@@ -13,11 +13,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private let tableView = UITableView()
     private var authorities = [Authority]()
     private let ledgerBook = LedgerBook()
-    private var products: [SKProduct] {
-        return []
-//        return self.authorities.reduce([SKProduct]()) { result, authority in
-//            result + authority.products
-//        }
+    private var products = [SKProduct]()
+    private enum Product: String, CaseIterable {
+        case diamond = "com.myapp.diamond"
+        case gold = "com.myapp.gold"
+        case silver = "com.myapp.silver"
     }
     
     override func viewDidLoad() {
@@ -30,7 +30,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.tableView.frame = self.view.bounds
         
         self.ledgerBook.delegate = self
-        self.ledgerBook.authorities()
+        self.ledgerBook.products(identifiers: Product.allCases.map({$0.rawValue}))
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -50,6 +50,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
         let product = self.products[indexPath.row]
         let payment = SKPayment(product: product)
         SKPaymentQueue.default().add(payment)
@@ -57,6 +58,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 }
 
 extension ViewController: LedgerBookDelegate {
+    func ledgerBook(_ products: [SKProduct], error: LedgerBookError?) {
+        DispatchQueue.main.async {
+            self.products = products
+            self.tableView.reloadData()
+        }
+    }
+    
     func ledgerBook(_ authorities: [Authority], error: LedgerBookError?) {
         DispatchQueue.main.async {
             self.authorities = authorities

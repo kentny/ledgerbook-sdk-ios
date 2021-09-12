@@ -6,13 +6,15 @@
 //
 
 import Foundation
+import StoreKit
 
 public enum LedgerBookError: Error {
     case emptyProducts
     case productsRequestFailure
     case cannotMakePayments
-    case billingInProgress
+    case purchaseInProgress
     case restoreInProgress
+    case transactionFailure(SKError)
     case unknown
 }
 
@@ -25,12 +27,14 @@ extension LedgerBookError: LocalizedError {
             return "Failed to request products information."
         case .cannotMakePayments:
             return "Purchase has been disabled in the settings."
-        case .billingInProgress:
-            return "Billing process in progress."
+        case .purchaseInProgress:
+            return "Purchase process in progress."
         case .restoreInProgress:
             return "Restore process in progress."
         case .unknown:
             return "Unknown error happened."
+        case .transactionFailure(let skerror):
+            return "Transaction failure. (\(skerror.localizedDescription)"
         }
     }
 }

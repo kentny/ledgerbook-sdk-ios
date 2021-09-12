@@ -18,21 +18,21 @@ class Cache: NSObject {
         super.init()
     }
     
-    class func save(tempAuthorities: [TemporaryAuthority]) {
-        guard let data = try? NSKeyedArchiver.archivedData(withRootObject: tempAuthorities,
-                                                           requiringSecureCoding: false) else {
-            return
-        }
-        UserDefaults.standard.set(data, forKey: UserDefaultsKey.temporaryAuthorities.rawValue)
-     }
-    
-    class func loadTempAuthorities() -> [TemporaryAuthority]? {
-        guard let data = UserDefaults.standard.data(forKey: UserDefaultsKey.temporaryAuthorities.rawValue) else {
-            return nil
-        }
-        guard let array = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [TemporaryAuthority] else {
-                return nil
-        }
-        return array
-    }
+//    class func save(tempAuthorities: [TemporaryAuthority]) {
+//        guard let data = try? NSKeyedArchiver.archivedData(withRootObject: tempAuthorities,
+//                                                           requiringSecureCoding: false) else {
+//            return
+//        }
+//        UserDefaults.standard.set(data, forKey: UserDefaultsKey.temporaryAuthorities.rawValue)
+//     }
+//
+//    class func loadTempAuthorities() -> [TemporaryAuthority]? {
+//        guard let data = UserDefaults.standard.data(forKey: UserDefaultsKey.temporaryAuthorities.rawValue) else {
+//            return nil
+//        }
+//        guard let array = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [TemporaryAuthority] else {
+//                return nil
+//        }
+//        return array
+//    }
  }

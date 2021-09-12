@@ -11,11 +11,16 @@ import StoreKit
 typealias LedgerBookProductsCompletion = ([SKProduct], LedgerBookError?) -> Void
 
 protocol ProductRepositoryProtocol: AnyObject {
+    func fetchProductsFromLedgerBookServer()
     func products(productIdentifiers: [String], completion: @escaping LedgerBookProductsCompletion)
 }
 
 class ProductRepository: NSObject, ProductRepositoryProtocol, SKProductsRequestDelegate {
     private var ledgerBookProductsCompletion: LedgerBookProductsCompletion?
+    
+    func fetchProductsFromLedgerBookServer() {
+        // TODO
+    }
     
     func products(productIdentifiers: [String], completion: @escaping LedgerBookProductsCompletion) {
         self.ledgerBookProductsCompletion = completion

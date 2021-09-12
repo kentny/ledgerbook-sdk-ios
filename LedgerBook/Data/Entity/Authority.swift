@@ -27,22 +27,22 @@ public class Authority: Codable {
     }
 }
 
-class TemporaryAuthority: NSObject, NSCoding {
-    let identifier: String
-    let productIds: [String]
-    
-    init(identifier: String, productIds: [String]) {
-        self.identifier = identifier
-        self.productIds = productIds
-     }
-    
-    required init?(coder: NSCoder) {
-        self.identifier = (coder.decodeObject(forKey: "identifier") as? String) ?? ""
-        self.productIds = (coder.decodeObject(forKey: "productIds") as? [String]) ?? []
-    }
-    
-    func encode(with coder: NSCoder) {
-        coder.encode(self.identifier, forKey: "identifier")
-        coder.encode(self.productIds, forKey: "productIds")
-     }
-}
+//class TemporaryAuthority: NSObject, NSCoding {
+//    let identifier: String
+//    let productIds: [String]
+//    
+//    init(identifier: String, productIds: [String]) {
+//        self.identifier = identifier
+//        self.productIds = productIds
+//     }
+//    
+//    required init?(coder: NSCoder) {
+//        self.identifier = (coder.decodeObject(forKey: "identifier") as? String) ?? ""
+//        self.productIds = (coder.decodeObject(forKey: "productIds") as? [String]) ?? []
+//    }
+//    
+//    func encode(with coder: NSCoder) {
+//        coder.encode(self.identifier, forKey: "identifier")
+//        coder.encode(self.productIds, forKey: "productIds")
+//     }
+//}

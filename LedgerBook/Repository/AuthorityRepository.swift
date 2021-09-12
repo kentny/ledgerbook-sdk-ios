@@ -31,16 +31,16 @@ class AuthorityRepository: AuthorityRepositoryProtocol {
     }
 
     
-    // MARK: - Private methods
-    private func fetchFromLBServer(completion: @escaping ([TemporaryAuthority], LedgerBookError?) -> Void) {
-        // Fetch authorities from the Ledger Book server.
-        let dummyTempAuthorities = [
-            TemporaryAuthority(identifier: "diamond", productIds: ["com.myapp.diamond"]),
-            TemporaryAuthority(identifier: "gold", productIds: ["com.myapp.gold"]),
-            TemporaryAuthority(identifier: "silver", productIds: ["com.myapp.silver"]),
-        ]
-        completion(dummyTempAuthorities, nil)
-    }
+//    // MARK: - Private methods
+//    private func fetchFromLBServer(completion: @escaping ([TemporaryAuthority], LedgerBookError?) -> Void) {
+//        // Fetch authorities from the Ledger Book server.
+//        let dummyTempAuthorities = [
+//            TemporaryAuthority(identifier: "diamond", productIds: ["com.myapp.diamond"]),
+//            TemporaryAuthority(identifier: "gold", productIds: ["com.myapp.gold"]),
+//            TemporaryAuthority(identifier: "silver", productIds: ["com.myapp.silver"]),
+//        ]
+//        completion(dummyTempAuthorities, nil)
+//    }
     
 
 //    private func authoritiesFromTemporaryAuthorities(tempAuthorities: [TemporaryAuthority], completion: @escaping LedgerBookAuthoritiesCompletion) {

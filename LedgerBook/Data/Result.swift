@@ -7,15 +7,15 @@
 
 import Foundation
 
-enum Result<T> {
+enum Result<T, U: Error> {
     case success(T)
-    case failure(Error?)
+    case failure(U)
     
     init(value: T) {
         self = .success(value)
     }
     
-    init(error: Error?) {
+    init(error: U) {
         self = .failure(error)
     }
 }

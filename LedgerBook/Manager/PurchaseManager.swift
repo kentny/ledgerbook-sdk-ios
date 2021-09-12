@@ -8,56 +8,39 @@
 import Foundation
 import StoreKit
 
-protocol PurchaseManagerDelegate {
-    //課金完了
-    func purchaseManager(_ purchaseManager: PurchaseManager!, didFinishPurchaseWithTransaction transaction: SKPaymentTransaction!, decisionHandler: ((_ complete : Bool) -> Void)!)
-    //課金完了(中断していたもの)
-    func purchaseManager(_ purchaseManager: PurchaseManager!, didFinishUntreatedPurchaseWithTransaction transaction: SKPaymentTransaction!, decisionHandler: ((_ complete : Bool) -> Void)!)
-    //リストア完了
-    func purchaseManagerDidFinishRestore(_ purchaseManager: PurchaseManager!)
-    //課金失敗
-    func purchaseManager(_ purchaseManager: PurchaseManager!, didFailWithErrors errors: [Error])
-    //承認待ち(ファミリー共有)
-    func purchaseManagerDidDeferred(_ purchaseManager: PurchaseManager!)
-}
+class PurchaseManager: NSObject, SKPaymentTransactionObserver {
 
-private let purchaseManagerSharedManager = PurchaseManager()
+    // MARK: Singleton
+    private static let sharedInstance = PurchaseManager()
+    
+    private var transactionObservers = [(SKPaymentTransaction) -> Void]()
+    private var purchaseCompletion: ((Result<SKPaymentTransaction, LedgerBookError>) -> Void)?
+    private var restoreCompletion: ((Result<SKPaymentTransaction, LedgerBookError>) -> Void)?
+    private var processingProductIdentifier: String?
 
-class PurchaseManager : NSObject,SKPaymentTransactionObserver {
-
-    var delegate : PurchaseManagerDelegate?
-
-    private var productIdentifier: String?
-    private var isRestore: Bool = false
-
-    /// Singleton
-    class func sharedManager() -> PurchaseManager{
-        return purchaseManagerSharedManager;
+    /// Observe transactions.
+    class func addObserve(observer: @escaping (SKPaymentTransaction) -> Void) {
+        sharedInstance.transactionObservers.append(observer)
     }
-
-    /// 課金開始
-    func startWithProduct(_ product : SKProduct){
-        var errors = [LedgerBookError]()
-
+    
+    /// Remove all observers.
+    class func removeAllObserver() {
+        sharedInstance.transactionObservers.removeAll()
+    }
+    
+    /// Start purchasing product.
+    class func purchase(_ product : SKProduct, completion: @escaping (Result<SKPaymentTransaction, LedgerBookError>) -> Void) {
         if !SKPaymentQueue.canMakePayments() {
-            errors.append(.cannotMakePayments)
-        }
-
-        if self.productIdentifier != nil {
-            errors.append(.productsRequestFailure)
-        }
-
-        if self.isRestore {
-            errors.append(.restoreInProgress)
-        }
-
-        //エラーがあれば終了
-        if !errors.isEmpty {
-            self.delegate?.purchaseManager(self, didFailWithErrors: errors)
+            completion(Result(error: .cannotMakePayments))
             return
         }
 
-        //未処理のトランザクションがあればそれを利用
+        if sharedInstance.purchaseCompletion != nil {
+            completion(Result(error: .purchaseInProgress))
+            return
+        }
+
+        // Use unprocessed transaction(s) if any...
         let transactions = SKPaymentQueue.default().transactions
         if transactions.count > 0 {
             for transaction in transactions {
@@ -66,28 +49,32 @@ class PurchaseManager : NSObject,SKPaymentTransactionObserver {
                 }
 
                 if transaction.payment.productIdentifier == product.productIdentifier {
-                        self.productIdentifier = product.productIdentifier
-                        self.completeTransaction(transaction)
+                    sharedInstance.processingProductIdentifier = product.productIdentifier
+                    completion(Result(value: transaction))
                         return
                 }
             }
         }
 
-        //課金処理開始
+        sharedInstance.purchaseCompletion = completion
+
+        // Start payment process.
         let payment = SKMutablePayment(product: product)
         SKPaymentQueue.default().add(payment)
-        self.productIdentifier = product.productIdentifier
+        sharedInstance.processingProductIdentifier = product.productIdentifier
     }
 
-    /// リストア開始
-    func startRestore(){
-        LBDebugPrint("リストア開始")
-        if !self.isRestore {
-            self.isRestore = true
-            SKPaymentQueue.default().restoreCompletedTransactions()
-        } else {
-            self.delegate?.purchaseManager(self, didFailWithErrors: [LedgerBookError.restoreInProgress])
-        }
+    /// Start restore.
+    class func restore(completion: @escaping (Result<SKPaymentTransaction, LedgerBookError>) -> Void){
+        LBDebugPrint("Start Restoring.")
+        sharedInstance.restoreCompletion = completion
+        SKPaymentQueue.default().restoreCompletedTransactions()
+    }
+
+    /// Complete purchase processes.
+    class func completeTransaction(_ transaction : SKPaymentTransaction) {
+        sharedInstance.processingProductIdentifier = nil
+        SKPaymentQueue.default().finishTransaction(transaction)
     }
 
     // MARK: - SKPaymentTransactionObserver
@@ -95,134 +82,121 @@ class PurchaseManager : NSObject,SKPaymentTransactionObserver {
         //課金状態が更新されるたびに呼ばれる
         LBDebugPrint("paymentQueue, transaction number: \(transactions.count)")
         for transaction in transactions {
-            LBDebugPrint("transactionIdentifier: \(transaction.transactionIdentifier ?? "nil")")
             switch transaction.transactionState {
-            case .purchasing :
-                //課金中
-                LBDebugPrint("paymentQueue: purchasing")
+            case .purchased:
+                self.purchaseCompletion?(Result(value: transaction))
+            case .restored:
+                self.restoreCompletion?(Result(value: transaction))
+            case .purchasing:
                 break
-            case .purchased :
-                //課金完了
-                LBDebugPrint("paymentQueue: purchased")
-                self.verifyReceipt(completion: { [weak self] result in
-                    switch result {
-                    case .success(let isSuccess):
-                        if isSuccess {
-                            self?.completeTransaction(transaction)
-                        } else {
-                            self?.failedTransaction(transaction)
-                        }
-                    case .failure(_):
-                        self?.failedTransaction(transaction)
-                    }
-                })
-            case .failed :
-                //課金失敗
-                LBDebugPrint("paymentQueue: failed")
-                self.failedTransaction(transaction)
-            case .restored :
-                //リストア
-                LBDebugPrint("paymentQueue: restored")
-                self.verifyReceipt(completion: { [weak self] result in
-                    switch result {
-                    case .success(let isSuccess):
-                        if isSuccess {
-                            LBDebugPrint("restored - verifyReceipt - success")
-                            self?.restoreTransaction(transaction)
-                        } else {
-                            LBDebugPrint("restored - verifyReceipt - not success")
-                            self?.failedTransaction(transaction)
-                        }
-                    case .failure(_):
-                        LBDebugPrint("restored - verifyReceipt - failed")
-                        self?.failedTransaction(transaction)
-                    }
-                })
-            case .deferred :
-                //承認待ち
-                LBDebugPrint("paymentQueue: deferred")
-                self.deferredTransaction(transaction)
+            case .failed, .deferred:
+                Self.completeTransaction(transaction)
             @unknown default:
-                fatalError()
+                break
+            }
+
+            for observer in self.transactionObservers {
+                observer(transaction)
             }
         }
     }
 
-    func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
-        //リストア失敗時に呼ばれる
-        LBDebugPrint(#function)
-        LBDebugPrint("Error: \(error)")
-        self.delegate?.purchaseManager(self, didFailWithErrors: [error])
-        self.isRestore = false
-    }
-
+    /// Finished restoring
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
-        //リストア完了時に呼ばれる
-        LBDebugPrint(#function)
         LBDebugPrint("Restore completed.")
-        self.delegate?.purchaseManagerDidFinishRestore(self)
-        self.isRestore = false
-    }
-
-
-
-    // MARK: - SKPaymentTransaction process
-    private func completeTransaction(_ transaction : SKPaymentTransaction) {
-        if transaction.payment.productIdentifier == self.productIdentifier {
-            //課金終了
-            if let delegate = self.delegate {
-                delegate.purchaseManager(self, didFinishPurchaseWithTransaction: transaction, decisionHandler: { (complete) -> Void in
-                    if complete {
-                        //トランザクション終了
-                        SKPaymentQueue.default().finishTransaction(transaction)
-                    }
-                })
-            } else {
-                //トランザクション終了
-                SKPaymentQueue.default().finishTransaction(transaction)
-            }
-            self.productIdentifier = nil
-        } else {
-            //課金終了(以前中断された課金処理)
-            if let delegate = self.delegate {
-                delegate.purchaseManager(self, didFinishUntreatedPurchaseWithTransaction: transaction, decisionHandler: { (complete) -> Void in
-                    if complete {
-                        //トランザクション終了
-                        SKPaymentQueue.default().finishTransaction(transaction)
-                    }
-                })
-            } else {
-                //トランザクション終了
-                SKPaymentQueue.default().finishTransaction(transaction)
-            }
-        }
-    }
-
-    private func failedTransaction(_ transaction : SKPaymentTransaction) {
-        //課金失敗
-        self.delegate?.purchaseManager(self, didFailWithErrors: [transaction.error ?? LedgerBookError.unknown])
-        self.productIdentifier = nil
-        SKPaymentQueue.default().finishTransaction(transaction)
-    }
-
-    private func restoreTransaction(_ transaction : SKPaymentTransaction) {
-        //リストア(originalTransactionをdidFinishPurchaseWithTransactionで通知)　※設計に応じて変更
-        self.delegate?.purchaseManager(self, didFinishPurchaseWithTransaction: transaction.original, decisionHandler: { (complete) -> Void in
-            if complete {
-                //トランザクション終了
-                SKPaymentQueue.default().finishTransaction(transaction)
-            }
-        })
-    }
-
-    private func deferredTransaction(_ transaction : SKPaymentTransaction) {
-        //承認待ち
-        self.delegate?.purchaseManagerDidDeferred(self)
-        self.productIdentifier = nil
     }
     
-    private func verifyReceipt(completion: @escaping ((_ result: Result<Bool>) -> Void)) {
-        // TODO
+    /// Failed to restore
+    func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
+        LBDebugPrint("Restore failed error: \(error)")
+        self.restoreCompletion?(Result(error: .transactionFailure(SKError(_nsError: error as NSError))))
+    }
+
+    func verifyReceipt(completion: @escaping ((_ result: Result<Bool, LedgerBookError>) -> Void)) {
+        // verify receipt URL
+        var urlString = ""
+        if LedgerBook.useSandbox {
+            urlString = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "Verify Receipt URL (sandbox)") as! String
+        } else {
+            urlString = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "Verify Receipt URL") as! String
+        }
+        let url = URL(string: urlString)!
+        
+//
+//        let apiToken = Bundle.main.object(forInfoDictionaryKey: "Firebase API Token") as! String
+//        let url = URL(string: urlString)!
+//        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
+//        components?.queryItems = [
+//            URLQueryItem(name: "token", value: apiToken)
+//        ]
+//        let queryStringAddedUrl = components?.url
+//
+//        // Get receipt if available
+//        if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,
+//        FileManager.default.fileExists(atPath: appStoreReceiptURL.path) {
+//
+//            do {
+//                let receiptData = try Data(contentsOf: appStoreReceiptURL, options: .alwaysMapped)
+//                print(receiptData)
+//
+//                let receiptBase64String = receiptData.base64EncodedString(options: [])
+//                print("receiptBase64String: \(receiptBase64String)")
+//
+//                guard let userId = SettingRepository.loadUserId() else {
+//                    throw NSError(domain: "User IDが空っぽ", code: -1, userInfo: nil)
+//                }
+//
+//                let json: [String: Any] = [
+//                    "receipt_string": receiptBase64String,
+//                    "user_id": userId,
+//                ]
+//                let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+//
+//                var request = URLRequest(url: queryStringAddedUrl!)
+//                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//                request.httpMethod = "POST"
+//                request.httpBody = jsonData
+//
+//                let session = URLSession.shared
+//                session.dataTask(with: request) { (data, response, error) in
+//                    if error == nil, let response = response as? HTTPURLResponse {
+//                        // HTTPヘッダの取得
+//                        print("Content-Type: \(response.allHeaderFields["Content-Type"] ?? "")")
+//                        // HTTPステータスコード
+//                        print("statusCode: \(response.statusCode)")
+//
+////                        if let data = data {
+////                            print(String(data: data, encoding: .utf8) ?? "")
+////                        } else {
+////                            print("response data is nil.")
+////                        }
+//
+//                        if response.statusCode == 200, let data = data {
+//                            print(String(data: data, encoding: .utf8) ?? "")
+//                            do {
+//                                let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? [String : Any]
+//                                let isPremiumUser = json?["is_premium_user"] as? Bool ?? false
+//                                completion(Result<Bool>(value: isPremiumUser))
+//                            } catch {
+//                                print("Serialize Error")
+//                                completion(Result<Bool>(error: error))
+//                            }
+//                        } else {
+//                            completion(Result<Bool>(error: error))
+//                        }
+//                    }
+//                }.resume()
+//            } catch {
+//                print("Couldn't read receipt data with error: " + error.localizedDescription)
+//                let result = Result<Bool>(error: error)
+//                completion(result)
+//            }
+//        } else {
+//            print("Receipt data is empty...")
+//            completion(Result<Bool>(value: false))
+//        }
+//        // get receipt data
+        
     }
 }
 

@@ -30,9 +30,8 @@
 		9673E1E726DB79DA00F3D919 /* GetProductsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673E1E626DB79DA00F3D919 /* GetProductsTests.swift */; };
 		9673E1E926DB7D0F00F3D919 /* LedgerBook.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9673E1E826DB7D0F00F3D919 /* LedgerBook.plist */; };
 		9673E1ED26DBA9B800F3D919 /* LedgerBook.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9673E1E826DB7D0F00F3D919 /* LedgerBook.plist */; };
-		9673E1EF26DBAA0200F3D919 /* hoge.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9673E1EE26DBAA0200F3D919 /* hoge.txt */; };
-		9673E1F026DBAA0200F3D919 /* hoge.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9673E1EE26DBAA0200F3D919 /* hoge.txt */; };
-		9673E1F126DBAA4300F3D919 /* hoge.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9673E1EE26DBAA0200F3D919 /* hoge.txt */; };
+		9673E1F326DBB45A00F3D919 /* ProductManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673E1F226DBB45A00F3D919 /* ProductManager.swift */; };
+		9673E1F526DBB4A000F3D919 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673E1F426DBB4A000F3D919 /* Product.swift */; };
 		96C71C6C26D23F57002B053F /* Debugger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C71C6B26D23F57002B053F /* Debugger.swift */; };
 		96FEE26E26BD5AA3002C5B2F /* LedgerBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96FEE26426BD5AA2002C5B2F /* LedgerBook.framework */; };
 		96FEE27326BD5AA3002C5B2F /* LedgerBookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEE27226BD5AA3002C5B2F /* LedgerBookTests.swift */; };
@@ -93,7 +92,8 @@
 		9673E1E026DB725100F3D919 /* GetProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProducts.swift; sourceTree = "<group>"; };
 		9673E1E626DB79DA00F3D919 /* GetProductsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProductsTests.swift; sourceTree = "<group>"; };
 		9673E1E826DB7D0F00F3D919 /* LedgerBook.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = LedgerBook.plist; sourceTree = "<group>"; };
-		9673E1EE26DBAA0200F3D919 /* hoge.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hoge.txt; sourceTree = "<group>"; };
+		9673E1F226DBB45A00F3D919 /* ProductManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductManager.swift; sourceTree = "<group>"; };
+		9673E1F426DBB4A000F3D919 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		96C71C6726D1C2C9002B053F /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		96C71C6B26D23F57002B053F /* Debugger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debugger.swift; sourceTree = "<group>"; };
 		96FEE26426BD5AA2002C5B2F /* LedgerBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LedgerBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -226,7 +226,6 @@
 				96FEE26826BD5AA2002C5B2F /* Info.plist */,
 				96FEE26726BD5AA2002C5B2F /* LedgerBook.h */,
 				96FEE2A026BFB058002C5B2F /* LedgerBook.swift */,
-				9673E1EE26DBAA0200F3D919 /* hoge.txt */,
 				9673E1E826DB7D0F00F3D919 /* LedgerBook.plist */,
 				96C71C6826D23EE5002B053F /* Common */,
 				96FEE2B726C8B552002C5B2F /* Data */,
@@ -266,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				96FEE29E26BD5C71002C5B2F /* Authority.swift */,
+				9673E1F426DBB4A000F3D919 /* Product.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -274,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				96FEE2AA26BFD1FA002C5B2F /* AuthorityManager.swift */,
+				9673E1F226DBB45A00F3D919 /* ProductManager.swift */,
 				96FEE2B526C8B440002C5B2F /* PurchaseManager.swift */,
 			);
 			path = Manager;
@@ -427,7 +428,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9673E1EF26DBAA0200F3D919 /* hoge.txt in Resources */,
 				9673E1E926DB7D0F00F3D919 /* LedgerBook.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -436,7 +436,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9673E1F026DBAA0200F3D919 /* hoge.txt in Resources */,
 				9673E1ED26DBA9B800F3D919 /* LedgerBook.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -446,7 +445,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				96FEE29526BD5AE4002C5B2F /* LaunchScreen.storyboard in Resources */,
-				9673E1F126DBAA4300F3D919 /* hoge.txt in Resources */,
 				96FEE29226BD5AE4002C5B2F /* Assets.xcassets in Resources */,
 				96FEE29026BD5AE2002C5B2F /* Main.storyboard in Resources */,
 			);
@@ -480,6 +478,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96FEE2B926C8B577002C5B2F /* Result.swift in Sources */,
+				9673E1F326DBB45A00F3D919 /* ProductManager.swift in Sources */,
 				9673E1DB26D6793800F3D919 /* Request.swift in Sources */,
 				96FEE2B126C74136002C5B2F /* Error.swift in Sources */,
 				96FEE29F26BD5C72002C5B2F /* Authority.swift in Sources */,
@@ -487,6 +486,7 @@
 				96FEE2A926BFC565002C5B2F /* Cache.swift in Sources */,
 				96FEE2AF26C50DE0002C5B2F /* ProductRepository.swift in Sources */,
 				96FEE2A126BFB058002C5B2F /* LedgerBook.swift in Sources */,
+				9673E1F526DBB4A000F3D919 /* Product.swift in Sources */,
 				9673E1DE26DB032B00F3D919 /* GetAuthorities.swift in Sources */,
 				9673E1D926D675C700F3D919 /* APIClient.swift in Sources */,
 				96FEE2B626C8B440002C5B2F /* PurchaseManager.swift in Sources */,
