@@ -46,12 +46,12 @@ public final class LedgerBook: NSObject {
 //        self.authorityManager = AuthorityManager(authorityRepository)
     }
 
-    //    public class func setup(appId: String, debug: Bool = false) {
-    //        lbDebug = debug
-    //        LBDebugPrint("setup, appId: \(appId)")
-    //        Self.appId = appId
-    //        Self.secret = nil
-    //    }
+    public class func setup(appId: String, debug: Bool = false) {
+        lbDebug = debug
+        LBDebugPrint("setup, appId: \(appId)")
+        Self.sharedInstance._appId = appId
+        Self.sharedInstance._secret = nil
+    }
 
     public class func setup(secret: String, useSandbox: Bool = false, debug: Bool = false) {
         lbDebug = debug

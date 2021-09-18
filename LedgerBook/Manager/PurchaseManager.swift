@@ -18,6 +18,11 @@ class PurchaseManager: NSObject, SKPaymentTransactionObserver {
     private var restoreCompletion: ((Result<SKPaymentTransaction, LedgerBookError>) -> Void)?
     private var processingProductIdentifier: String?
 
+    override init() {
+        super.init()
+        SKPaymentQueue.default().add(self)
+    }
+    
     /// Observe transactions.
     class func addObserve(observer: @escaping (SKPaymentTransaction) -> Void) {
         sharedInstance.transactionObservers.append(observer)
@@ -35,7 +40,7 @@ class PurchaseManager: NSObject, SKPaymentTransactionObserver {
             return
         }
 
-        if sharedInstance.purchaseCompletion != nil {
+        if sharedInstance.processingProductIdentifier != nil {
             completion(Result(error: .purchaseInProgress))
             return
         }
@@ -51,7 +56,7 @@ class PurchaseManager: NSObject, SKPaymentTransactionObserver {
                 if transaction.payment.productIdentifier == product.productIdentifier {
                     sharedInstance.processingProductIdentifier = product.productIdentifier
                     completion(Result(value: transaction))
-                        return
+                    return
                 }
             }
         }
@@ -112,13 +117,13 @@ class PurchaseManager: NSObject, SKPaymentTransactionObserver {
         self.restoreCompletion?(Result(error: .transactionFailure(SKError(_nsError: error as NSError))))
     }
 
-    func verifyReceipt(completion: @escaping ((_ result: Result<Bool, LedgerBookError>) -> Void)) {
+    class func verifyReceipt(completion: @escaping ((_ result: Result<Bool, LedgerBookError>) -> Void)) {
         // verify receipt URL
         var urlString = ""
         if LedgerBook.useSandbox {
-            urlString = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "Verify Receipt URL (sandbox)") as! String
+            urlString = Bundle(for: Self.self).object(forInfoDictionaryKey: "Verify Receipt URL (sandbox)") as! String
         } else {
-            urlString = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "Verify Receipt URL") as! String
+            urlString = Bundle(for: Self.self).object(forInfoDictionaryKey: "Verify Receipt URL") as! String
         }
         let url = URL(string: urlString)!
         

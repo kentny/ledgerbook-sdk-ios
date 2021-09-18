@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		96222FD326F5BD1200009B66 /* ProductManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96222FD226F5BD1200009B66 /* ProductManagerTests.swift */; };
 		9673E1D226D5362400F3D919 /* LedgerBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96FEE26426BD5AA2002C5B2F /* LedgerBook.framework */; };
 		9673E1D326D5362400F3D919 /* LedgerBook.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 96FEE26426BD5AA2002C5B2F /* LedgerBook.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9673E1D926D675C700F3D919 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673E1D826D675C700F3D919 /* APIClient.swift */; };
@@ -86,6 +87,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		96222FD226F5BD1200009B66 /* ProductManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductManagerTests.swift; sourceTree = "<group>"; };
 		9673E1D826D675C700F3D919 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		9673E1DA26D6793800F3D919 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		9673E1DD26DB032B00F3D919 /* GetAuthorities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAuthorities.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				96FEE2B326C78F81002C5B2F /* AuthorityManagerTests.swift */,
+				96222FD226F5BD1200009B66 /* ProductManagerTests.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -503,6 +506,7 @@
 				96FEE27326BD5AA3002C5B2F /* LedgerBookTests.swift in Sources */,
 				96FEE2B426C78F81002C5B2F /* AuthorityManagerTests.swift in Sources */,
 				9673E1E726DB79DA00F3D919 /* GetProductsTests.swift in Sources */,
+				96222FD326F5BD1200009B66 /* ProductManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

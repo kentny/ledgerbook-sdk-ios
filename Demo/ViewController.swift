@@ -11,8 +11,6 @@ import LedgerBook
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     private let tableView = UITableView()
-    private var authorities = [Authority]()
-    private let ledgerBook = LedgerBook()
     private var products = [SKProduct]()
     private enum Product: String, CaseIterable {
         case diamond = "com.myapp.diamond"
@@ -29,8 +27,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.view.addSubview(self.tableView)
         self.tableView.frame = self.view.bounds
         
-        self.ledgerBook.delegate = self
-        self.ledgerBook.products(identifiers: Product.allCases.map({$0.rawValue}))
+        
+        LedgerBook.retrieveProducts(identifiers: Product.allCases.map({$0.rawValue})) { products, error in
+            DispatchQueue.main.async {
+                self.products = products
+                self.tableView.reloadData()
+            }
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -50,25 +53,38 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
         let product = self.products[indexPath.row]
-        let payment = SKPayment(product: product)
-        SKPaymentQueue.default().add(payment)
+        
+        LedgerBook.purchase(product: product) { transaction, error in
+            if error != nil || transaction == nil {
+                print("Error occurred.")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "Purchased", message: "Complete purchasing (\(transaction!.payment.productIdentifier))", preferredStyle: .alert)
+                let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alert.addAction(action)
+                self.present(alert, animated: true, completion: nil)
+                
+                LedgerBook.completeTransaction(transaction!)
+            }
+        }
     }
 }
 
-extension ViewController: LedgerBookDelegate {
-    func ledgerBook(_ products: [SKProduct], error: LedgerBookError?) {
-        DispatchQueue.main.async {
-            self.products = products
-            self.tableView.reloadData()
-        }
-    }
-    
-    func ledgerBook(_ authorities: [Authority], error: LedgerBookError?) {
-        DispatchQueue.main.async {
-            self.authorities = authorities
-            self.tableView.reloadData()
-        }
-    }
-}
+//extension ViewController: LedgerBookDelegate {
+//    func ledgerBook(_ products: [SKProduct], error: LedgerBookError?) {
+//        DispatchQueue.main.async {
+//            self.products = products
+//            self.tableView.reloadData()
+//        }
+//    }
+//
+//    func ledgerBook(_ authorities: [Authority], error: LedgerBookError?) {
+//        DispatchQueue.main.async {
+//            self.authorities = authorities
+//            self.tableView.reloadData()
+//        }
+//    }
+//}
